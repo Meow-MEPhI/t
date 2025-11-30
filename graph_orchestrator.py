@@ -5,6 +5,7 @@ from agent_bibliographer import BibliographerAgent
 from agent_rubricator import RubricatorAgent
 from agent_keyword import KeywordAgent
 from agent_kritik import KritikAgent
+from agent_normal import NormalAgent
 from IPython.display import Image, display
 
 # Определяем состояние графа
@@ -15,6 +16,7 @@ class GraphState(TypedDict):
     rubric_result_keyword: str
     rubric_result_rubricator: str
     rubric_result_kritik: str
+    rubric_result_normal: str
     status: str
 
 
@@ -24,7 +26,7 @@ def create_multi_agent_graph(auth_key: str):
     bibliographer = BibliographerAgent(auth_key=auth_key)
     rubricator = RubricatorAgent(auth_key=auth_key)
     keyword = KeywordAgent(auth_key=auth_key)
-    kritik = KritikAgent(auth_key=auth_key)
+    normal = NormalAgent(auth_key=auth_key)
 
     # Создаем граф состояний
     workflow = StateGraph(GraphState)
@@ -33,14 +35,14 @@ def create_multi_agent_graph(auth_key: str):
     workflow.add_node("bibliographer", bibliographer.run)
     workflow.add_node("rubricator", rubricator.run)
     workflow.add_node("keyword", keyword.run)
-    workflow.add_node("kritik", kritik.run)
+    workflow.add_node("normal", normal.run)
 
     # Определяем последовательность выполнения
     workflow.add_edge(START, "bibliographer")
     workflow.add_edge("bibliographer", "rubricator")
     workflow.add_edge("rubricator", "keyword")
-    workflow.add_edge("keyword", "kritik")
-    workflow.add_edge("kritik", END)
+    workflow.add_edge("keyword", "normal")
+    workflow.add_edge("normal", END)
 
     # Компилируем граф
     graph = workflow.compile()
@@ -51,16 +53,16 @@ def create_multi_agent_graph(auth_key: str):
 
 if __name__ == "__main__":
 
-    AUTH_KEY = "=="  # Вставьте ваш ключ GigaChat
+    AUTH_KEY = "YjJkOGY4NjctNGY3Ny00NTM3LTkwN2MtODg1NmIzZTJlNWY2OmNiYzY2NjU0LTE5NmEtNDUwMC1hMDdhLTI4N2IxYTRhZmQyZQ=="  # Вставьте ваш ключ GigaChat
     ARTICLE_URL = "https://ilibrary.ru/text/1540/p.1/index.html"
 
     graph = create_multi_agent_graph(AUTH_KEY)
     initial_state = {
         "article_url": ARTICLE_URL,
         "article_text": "",
-        "rubric_result_rubrictor": "",
+        "rubric_result_rubricator": "",
         "rubric_result_keyword": "",
-        "rubric_result_kritik": "",
+        "rubric_result_normal": "",
         "status": "started"
     }
 
@@ -78,4 +80,4 @@ if __name__ == "__main__":
     print('\n')
     print(final_state['rubric_result_keyword'])
     print('\n')
-    print(final_state['rubric_result_kritik'])
+    print(final_state['rubric_result_normal'])

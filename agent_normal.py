@@ -1,10 +1,9 @@
-
 from langchain_gigachat.chat_models import GigaChat
 from langchain_core.messages import SystemMessage, HumanMessage
 
 
-class KritikAgent:
-    """Агент для проверки корректности отевта."""
+class NormalAgent:
+    """Агент для нормализации научной статьи."""
 
     def __init__(self, auth_key: str):
         self.auth_key = auth_key
@@ -12,19 +11,19 @@ class KritikAgent:
 
     def run(self, state: dict) -> dict:
 
-        article_text1 = state.get("rubric_result_rubricator", "")
+        article_text = state.get("article_text", "")
 
-        prompt = open('prompt_kritik.txt', 'r', encoding='utf-8').read()
+        prompt = open('prompt_normal.txt', 'r', encoding='utf-8').read()
 
         messages = [
             SystemMessage(content=prompt),
-            HumanMessage(content=article_text1[:10000])  # Ограничиваем длину для GigaChat
+            HumanMessage(content=article_text)
         ]
 
         result = self.model.invoke(messages).content
 
 
         return {
-            "rubric_result_kritik": result,
+            "rubric_result_normal": result,
             "status": "completed"
         }
