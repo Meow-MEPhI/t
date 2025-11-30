@@ -14,7 +14,7 @@ class KeywordAgent:
 
         article_text = state.get("article_text", "")
 
-        prompt = open('sf.txt', 'r', encoding='utf-8').read()
+        prompt = open('prompt.txt', 'r', encoding='utf-8').read()
 
         messages = [
             SystemMessage(content=prompt),

@@ -26,6 +26,7 @@ class BibliographerAgent:
 
         article_text = self.fetch_article_text(article_url)
 
+        print(article_text)
 
         return {
             "article_text": article_text,
