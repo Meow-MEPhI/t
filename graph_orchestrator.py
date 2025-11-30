@@ -53,8 +53,8 @@ def create_multi_agent_graph(auth_key: str):
 
 if __name__ == "__main__":
 
-    AUTH_KEY = "YjJkOGY4NjctNGY3Ny00NTM3LTkwN2MtODg1NmIzZTJlNWY2OmNiYzY2NjU0LTE5NmEtNDUwMC1hMDdhLTI4N2IxYTRhZmQyZQ=="  # Вставьте ваш ключ GigaChat
-    ARTICLE_URL = "https://ilibrary.ru/text/1540/p.1/index.html"
+    AUTH_KEY = ""  # Вставьте ваш ключ GigaChat
+    ARTICLE_URL = ""
 
     graph = create_multi_agent_graph(AUTH_KEY)
     initial_state = {
