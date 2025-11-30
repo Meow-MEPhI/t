@@ -14,7 +14,7 @@ class KeywordAgent:
 
         article_text = state.get("article_text", "")
 
-        prompt = open('prompt.txt', 'r', encoding='utf-8').read()
+        prompt = open('prompt_keyword.txt', 'r', encoding='utf-8').read()
 
         messages = [
             SystemMessage(content=prompt),
@@ -25,6 +25,6 @@ class KeywordAgent:
 
 
         return {
-            "rubric_result2": result,
+            "rubric_result_keyword": result,
             "status": "completed"
         }

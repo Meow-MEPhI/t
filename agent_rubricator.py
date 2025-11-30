@@ -25,6 +25,6 @@ class RubricatorAgent:
 
 
         return {
-            "rubric_result1": result,
+            "rubric_result_rubricator": result,
             "status": "completed"
         }

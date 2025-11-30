@@ -4,6 +4,7 @@ from langgraph.graph import StateGraph, START, END
 from agent_bibliographer import BibliographerAgent
 from agent_rubricator import RubricatorAgent
 from agent_keyword import KeywordAgent
+from agent_kritik import KritikAgent
 from IPython.display import Image, display
 
 # Определяем состояние графа
@@ -11,8 +12,9 @@ class GraphState(TypedDict):
     """Общее состояние для всех узлов графа."""
     article_url: str
     article_text: str
-    rubric_result1: str
-    rubric_result2: str
+    rubric_result_keyword: str
+    rubric_result_rubricator: str
+    rubric_result_kritik: str
     status: str
 
 
@@ -22,6 +24,7 @@ def create_multi_agent_graph(auth_key: str):
     bibliographer = BibliographerAgent(auth_key=auth_key)
     rubricator = RubricatorAgent(auth_key=auth_key)
     keyword = KeywordAgent(auth_key=auth_key)
+    kritik = KritikAgent(auth_key=auth_key)
 
     # Создаем граф состояний
     workflow = StateGraph(GraphState)
@@ -30,12 +33,14 @@ def create_multi_agent_graph(auth_key: str):
     workflow.add_node("bibliographer", bibliographer.run)
     workflow.add_node("rubricator", rubricator.run)
     workflow.add_node("keyword", keyword.run)
+    workflow.add_node("kritik", kritik.run)
 
     # Определяем последовательность выполнения
     workflow.add_edge(START, "bibliographer")
     workflow.add_edge("bibliographer", "rubricator")
     workflow.add_edge("rubricator", "keyword")
-    workflow.add_edge("keyword", END)
+    workflow.add_edge("keyword", "kritik")
+    workflow.add_edge("kritik", END)
 
     # Компилируем граф
     graph = workflow.compile()
@@ -46,15 +51,16 @@ def create_multi_agent_graph(auth_key: str):
 
 if __name__ == "__main__":
 
-    AUTH_KEY = "YjJkOGY4NjctNGY3Ny00NTM3LTkwN2MtODg1NmIzZTJlNWY2OmNiYzY2NjU0LTE5NmEtNDUwMC1hMDdhLTI4N2IxYTRhZmQyZQ=="  # Вставьте ваш ключ GigaChat
+    AUTH_KEY = "=="  # Вставьте ваш ключ GigaChat
     ARTICLE_URL = "https://ilibrary.ru/text/1540/p.1/index.html"
 
     graph = create_multi_agent_graph(AUTH_KEY)
     initial_state = {
         "article_url": ARTICLE_URL,
         "article_text": "",
-        "rubric_result1": "",
-        "rubric_result2": "",
+        "rubric_result_rubrictor": "",
+        "rubric_result_keyword": "",
+        "rubric_result_kritik": "",
         "status": "started"
     }
 
@@ -68,5 +74,8 @@ if __name__ == "__main__":
         f.write(png_data)
 
 
-    print(final_state['rubric_result1'])
-    print(final_state['rubric_result2'])
+    print(final_state['rubric_result_rubricator'])
+    print('\n')
+    print(final_state['rubric_result_keyword'])
+    print('\n')
+    print(final_state['rubric_result_kritik'])
