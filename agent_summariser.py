@@ -1,9 +1,8 @@
-
 from langchain_gigachat.chat_models import GigaChat
 from langchain_core.messages import SystemMessage, HumanMessage
 
 
-class KritikAgent:
+class SummariserAgent:
     """Агент для проверки корректности отевта."""
 
     def __init__(self, auth_key: str):
@@ -14,7 +13,7 @@ class KritikAgent:
 
         article_text1 = state.get("rubric_result_rubricator", "")
 
-        prompt = open('prompt_kritik.txt', 'r', encoding='utf-8').read()
+        prompt = open('prompt_summariser.txt', 'r', encoding='utf-8').read()
 
         messages = [
             SystemMessage(content=prompt),
@@ -25,6 +24,6 @@ class KritikAgent:
 
 
         return {
-            "rubric_result_kritik": result,
+            "rubric_result_summariser": result,
             "status": ["completed"]
         }

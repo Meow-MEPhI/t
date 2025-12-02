@@ -30,5 +30,5 @@ class BibliographerAgent:
 
         return {
             "article_text": article_text,
-            "status": "text_extracted"
+            "status": ["text_extracted"]
         }

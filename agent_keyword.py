@@ -26,5 +26,5 @@ class KeywordAgent:
 
         return {
             "rubric_result_keyword": result,
-            "status": "completed"
+            "status": ["completed"]
         }

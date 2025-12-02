@@ -25,5 +25,5 @@ class NormalAgent:
 
         return {
             "rubric_result_normal": result,
-            "status": "completed"
+            "status": ["completed"]
         }
